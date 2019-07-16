@@ -1,0 +1,18 @@
+FROM base/archlinux:latest
+ARG MANAGEMENT_IP
+ARG MANAGEMENT_PORT
+ENV MANAGEMENT_IP   $MANAGEMENT_IP
+ENV MANAGEMENT_PORT $MANAGEMENT_PORT
+
+RUN pacman -Syy \
+    && pacman --noconfirm -S \
+    base-devel \
+    make \
+    clang \
+    openssl \
+    && pacman -Scc
+    
+ADD . /var/service-beacon
+WORKDIR /var/service-beacon
+RUN make r
+CMD [ "/bin/sh", "-c", "./agent.exe ${MANAGEMENT_IP} ${MANAGEMENT_PORT} && tail -F /tmp/agent.log" ]

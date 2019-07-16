@@ -1,0 +1,101 @@
+version: '3'
+networks:
+  beaconnet:
+    ipam:
+      config:
+        - subnet: 10.1.0.0/24
+services:
+    web:
+      build: 
+        context: ./management-console
+      container_name: sb-management-console
+      ports:
+        - "5000:5000"
+      networks:
+        beaconnet:
+            ipv4_address: 10.1.0.10
+
+    ubuntu:
+      build:
+        context: ./agent
+        dockerfile: ./docker/ubuntu-Dockerfile
+      environment:
+        MANAGEMENT_IP:  10.1.0.10
+        MANAGEMENT_PORT: 5000
+      image: agent:ubuntu
+      networks:
+        beaconnet:
+          ipv4_address: 10.1.0.2
+      depends_on:
+        - web
+
+    debian:
+      build:
+        context: ./agent
+        dockerfile: ./docker/debian-Dockerfile
+      environment:
+        MANAGEMENT_IP:  10.1.0.10
+        MANAGEMENT_PORT: 5000
+      image: agent:debian
+      networks:
+        beaconnet:
+            ipv4_address: 10.1.0.7
+      depends_on:
+        - web
+
+#    alpine:
+#      build:
+#        context: ./agent
+#        dockerfile: ./docker/alpine-Dockerfile
+#      environment:
+#        MANAGEMENT_IP:  10.1.0.10
+#        MANAGEMENT_PORT: 5000
+#      image: agent:alpine
+#      networks:
+#        beaconnet:
+#          ipv4_address: 10.1.0.3
+#      depends_on:
+#        - web
+#
+#    arch:
+#      build:
+#        context: ./agent
+#        dockerfile: ./docker/arch-Dockerfile
+#      environment:
+#        MANAGEMENT_IP:  10.1.0.10
+#        MANAGEMENT_PORT: 5000
+#      image: agent:arch
+#      networks:
+#        beaconnet:
+#            ipv4_address: 10.1.0.4
+#      depends_on:
+#        - web
+#
+#    centos:
+#      build:
+#        context: ./agent
+#        dockerfile: ./docker/centos-Dockerfile
+#      environment:
+#        MANAGEMENT_IP:  10.1.0.10
+#        MANAGEMENT_PORT: 5000
+#      image: agent:centos
+#      networks:
+#        beaconnet:
+#            ipv4_address: 10.1.0.5
+#      depends_on:
+#        - web
+#
+#    fedora:
+#      build:
+#        context: ./agent
+#        dockerfile: ./docker/fedora-Dockerfile
+#      environment:
+#        MANAGEMENT_IP:  10.1.0.10
+#        MANAGEMENT_PORT: 5000
+#      image: agent:fedora
+#      networks:
+#        beaconnet:
+#            ipv4_address: 10.1.0.6
+#      depends_on:
+#        - web
+#

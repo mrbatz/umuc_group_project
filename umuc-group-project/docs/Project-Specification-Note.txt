@@ -1,0 +1,36 @@
+1. Agent Software (1)
+==============
+Perform basic interactions with the underlying file system,
+executing shared objects in the same address space, receiving data and buffering it in memory, hashing files on disk
+
+	- Receive process instructions (reading and writing files as tasked)
+	- Uninstall itself if instructed
+	- Report back to the tasking server
+
+2. Web comms & Encryption modules (2)
+	- Not sure what this will do exactly and we can possibly forget this feature
+
+
+3. Management Console (3 & 4)
+=============================
+
+	- Communicate with the agent
+	- Ability to decrypt & process the binary data from the agent
+	- Query data receive from the agent 
+	- Create task the agent
+	- Display aggregated charts and graphs of data
+	- Dashboards for:
+		-  Network Security Technician
+		- Project Manager or Senior Management
+	- Tagging of related information into relevant groups
+	- Filters to capture data unique to a specific group
+	- Store in a database
+		- Relational tables
+		- Store data unique to each host
+		- Store tasks for the agents
+		- Allow for "big picture" aggregation
+
+Usage Example
+=============
+A user use the management console to contact the agent and upload some sort of patch for the agent to execute. 
+	

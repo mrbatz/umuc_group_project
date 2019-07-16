@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="text-center login-container">
+  <form class="form-signin" action="" method="post">
+    <h1 class="logo"><span class="badge badge-primary"><i class="fab fa-staylinked"></i></span> Service Beacon</h1>
+    <h1 class="h3 mb-3 font-weight-normal">Please Sign In</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for category, message in messages %}
+          <li>
+            <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+          </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <input class="form-control" type="text" placeholder="Username" name="username" value="{{
+      request.form.username }}" />
+    <input class="form-control" type="password" placeholder="Password" name="password" value="{{
+      request.form.password }}" />
+      <br>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <a href="/register">Create a new account</a>
+  </form>
+  {% if error %}
+  <p class="error"><strong>Error:</strong> {{ error }} </p>
+  {% endif %}
+</div>
+{% endblock %}
+

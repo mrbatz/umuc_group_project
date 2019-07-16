@@ -1,0 +1,20 @@
+FROM fedora:latest
+ARG MANAGEMENT_IP
+ARG MANAGEMENT_PORT
+ENV MANAGEMENT_IP   $MANAGEMENT_IP
+ENV MANAGEMENT_PORT $MANAGEMENT_PORT
+
+RUN yum updateinfo \
+    && yum --assumeyes install \
+    make \
+    automake \
+    gcc \
+    kernel-devel \
+    clang \
+    openssl-devel \
+    && rm -rf /var/cache/yum
+    
+ADD . /var/service-beacon
+WORKDIR /var/service-beacon
+RUN make r
+CMD [ "/bin/sh", "-c", "./agent.exe ${MANAGEMENT_IP} ${MANAGEMENT_PORT} && tail -F /tmp/agent.log" ]

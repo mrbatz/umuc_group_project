@@ -1,0 +1,18 @@
+FROM alpine:latest
+ARG MANAGEMENT_IP
+ARG MANAGEMENT_PORT
+ENV MANAGEMENT_IP   $MANAGEMENT_IP
+ENV MANAGEMENT_PORT $MANAGEMENT_PORT
+
+RUN apk update \
+    && apk add \
+    build-base \    
+    make \
+    clang \
+    && apk add openssl-dev --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main/ --allow-untrusted \
+    && rm -rf /var/lib/apt/lists/*
+    
+ADD . /var/service-beacon
+WORKDIR /var/service-beacon
+RUN make r
+CMD [ "/bin/sh", "-c", "./agent.exe ${MANAGEMENT_IP} ${MANAGEMENT_PORT} && tail -F /tmp/agent.log" ]
